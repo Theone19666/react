@@ -1,18 +1,34 @@
-import React from "react";
+import React, { Component } from "react";
 import "./task.css";
 import Checkbox from "../checkbox";
 import Label from "../label";
 import Button from "../button";
 
-function Task({ propObj = {} }) {
-  return (
-    <div className="view">
-      <Checkbox />
-      <Label {...propObj.label} />
-      <Button {...propObj.buttons.edit} />
-      <Button {...propObj.buttons.destroy} />
-    </div>
-  );
+class Task extends Component {
+  state = {
+    done: false,
+  };
+
+  onComplete = () => {
+    this.setState(({ done }) => {
+      return {
+        done: !done,
+      };
+    });
+  };
+
+  render() {
+    return (
+      <li className={this.state.done ? "completed" : ""}>
+        <div className="view">
+          <Checkbox />
+          <Label {...this.props} onComplete={this.onComplete} />
+          <Button className="icon icon-edit" />
+          <Button className="icon icon-destroy" onClick={this.props.onDelete} />
+        </div>
+      </li>
+    );
+  }
 }
 
 export default Task;

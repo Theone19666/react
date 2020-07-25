@@ -1,75 +1,77 @@
-import React from "react";
+import React, { Component } from "react";
 import "./app.css";
 import TodoList from "../todo-list";
 import Header from "../header";
 import Footer from "../footer";
-function App() {
-  const todoItems = [
-    {
-      id: "first",
-      label: {
-        descriptionText: "Completed task",
-        createdText: "created 17 seconds ago",
-      },
-      buttons: {
-        edit: {
-          className: "icon icon-edit",
+const headerProps = {
+  inputObj: {
+    className: "new-todo",
+    placeholder: "What needs to be done?",
+    autoFocus: true,
+  },
+};
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      todoItems: [
+        {
+          id: "1",
+          label: {
+            descriptionText: "Completed task",
+            createdText: "created 17 seconds ago",
+          },
+          // liClass: "completed",
         },
-        destroy: {
-          className: "icon icon-destroy",
+        {
+          id: "2",
+          label: {
+            descriptionText: "Editing task",
+            createdText: "created 5 minutes ago",
+          },
+          // liClass: "completed",
+          // formVisible: true,
+          // liClass: "editing",
         },
-      },
-      liClass: "completed",
-    },
-    {
-      id: "second",
-      label: {
-        descriptionText: "Editing task",
-        createdText: "created 5 minutes ago",
-      },
-      buttons: {
-        edit: {
-          className: "icon icon-edit",
+        {
+          id: "3",
+          label: {
+            descriptionText: "Active task",
+            createdText: "created 5 minutes ago",
+          },
         },
-        destroy: {
-          className: "icon icon-destroy",
-        },
-      },
-      formVisible: true,
-      liClass: "editing",
-    },
-    {
-      id: "third",
-      label: {
-        descriptionText: "Active task",
-        createdText: "created 5 minutes ago",
-      },
-      buttons: {
-        edit: {
-          className: "icon icon-edit",
-        },
-        destroy: {
-          className: "icon icon-destroy",
-        },
-      },
-    },
-  ];
-  const headerProps = {
-    inputObj: {
-      className: "new-todo",
-      placeholder: "What needs to be done?",
-      autoFocus: true,
-    },
+      ],
+    };
+  }
+
+  deleteItem = (id) => {
+    this.setState(({ todoItems }) => {
+      console.log("id", id);
+      const index = todoItems.findIndex((item) => item.id === id);
+      console.log("index", index);
+      if (index > -1) {
+        return {
+          todoItems: [
+            ...todoItems.slice(0, index),
+            ...todoItems.slice(index + 1),
+          ],
+        };
+      }
+      return this.state;
+    });
   };
-  return (
-    <section className="todoapp">
-      <Header {...headerProps} />
-      <section className="main">
-        <TodoList list={todoItems} />
-        <Footer />
+
+  render() {
+    return (
+      <section className="todoapp">
+        <Header {...headerProps} />
+        <section className="main">
+          <TodoList list={this.state.todoItems} onDelete={this.deleteItem} />
+          <Footer />
+        </section>
       </section>
-    </section>
-  );
+    );
+  }
 }
 
 export default App;
