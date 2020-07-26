@@ -2,26 +2,14 @@ import React from "react";
 import "./filters.css";
 import TasksFilter from "../tasks-filter";
 
-function Filters() {
-  const filtersList = [
-    {
-      id: "first",
-      text: "All",
-      className: "selected",
-    },
-    {
-      id: "second",
-      text: "Active",
-    },
-    {
-      id: "third",
-      text: "Completed",
-    },
-  ];
-  const elements = filtersList.map((item) => {
+function Filters(props) {
+  const elements = props.filtersList.map((item) => {
     return (
       <li key={item.id}>
-        <TasksFilter {...item} />
+        <TasksFilter
+          {...item}
+          onClick={() => props.onFilterClicked(item.filterFunction)}
+        />
       </li>
     );
   });

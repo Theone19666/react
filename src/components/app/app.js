@@ -35,6 +35,33 @@ class App extends Component {
         completed: false,
       },
     ],
+    filtersList: [
+      {
+        id: "1",
+        text: "All",
+        className: "selected",
+        onClick: this.onFilterAll,
+      },
+      {
+        id: "2",
+        text: "Active",
+        onClick: this.onFilterNotCompleted,
+        filterFunction: (item) => {
+          console.log("!item.completed", !item.completed);
+          return !item.completed;
+        },
+      },
+      {
+        id: "3",
+        text: "Completed",
+        onClick: this.onFilterCompleted,
+        filterFunction: (item) => {
+          console.log("item.completed", item.completed);
+          return item.completed;
+        },
+      },
+    ],
+    filterFunction: null,
   };
 
   addItem = (text = "") => {
@@ -88,8 +115,34 @@ class App extends Component {
     });
   };
 
+  onFilterClicked = (filterFunction) => {
+    console.log("item", filterFunction);
+    this.setState({
+      filterFunction: filterFunction,
+    });
+  };
+
+  onFilterAll = (list) => {
+    return list.slice();
+  };
+
+  onFilterCompleted = (list) => {
+    return list.filter((item) => item.completed);
+  };
+
+  onFilterNotCompleted = (list) => {
+    return list.filter((item) => !item.completed);
+  };
+
+  onDeleteCompleted = () => {
+    this.setState(({ todoItems }) => {
+      return {
+        todoItems: todoItems.slice().filter((item) => !item.completed),
+      };
+    });
+  };
+
   render() {
-    console.log("this.state.todoItems", this.state.todoItems);
     return (
       <section className="todoapp">
         <Header onAddItem={this.addItem} />
@@ -98,8 +151,16 @@ class App extends Component {
             list={this.state.todoItems}
             onDelete={this.deleteItem}
             onComplete={this.onComplete}
+            filterFunction={this.state.filterFunction}
           />
-          <Footer />
+          <Footer
+            notCompletedcounter={
+              this.state.todoItems.filter((item) => !item.completed).length
+            }
+            onDeleteCompleted={this.onDeleteCompleted}
+            onFilterClicked={this.onFilterClicked}
+            filtersList={this.state.filtersList}
+          />
         </section>
       </section>
     );
