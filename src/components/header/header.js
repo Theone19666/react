@@ -1,14 +1,16 @@
-import React from "react";
-import TextBox from "../text-box";
+import React, { Component } from "react";
+import NewTaskForm from "../new-task-form";
 import "./header.css";
 
-function Header(props = {}) {
-  return (
-    <header className="header">
-      <h1>todos</h1>
-      <TextBox {...props.inputObj} />
-    </header>
-  );
+class Header extends Component {
+  render() {
+    return (
+      <header className="header">
+        <h1>todos</h1>
+        <NewTaskForm onAddItem={this.props.onAddItem} />
+      </header>
+    );
+  }
 }
 
 export default Header;

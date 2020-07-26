@@ -7,8 +7,10 @@ function Label({
   onComplete = () => {},
 }) {
   return (
-    <label onClick={onComplete}>
-      <span className="description">{descriptionText}</span>
+    <label>
+      <span className="description" onClick={onComplete}>
+        {descriptionText}
+      </span>
       <span className="created">{createdText}</span>
     </label>
   );
