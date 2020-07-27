@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./filters.css";
 import TasksFilter from "../tasks-filter";
 
@@ -15,5 +16,15 @@ function Filters(props) {
   });
   return <ul className="filters">{elements}</ul>;
 }
+
+Filters.propTypes = {
+  filtersList: PropTypes.arrayOf(PropTypes.object),
+  onFilterClicked: PropTypes.func,
+};
+
+Filters.defaultProps = {
+  onFilterClicked: () => {},
+  filtersList: [],
+};
 
 export default Filters;

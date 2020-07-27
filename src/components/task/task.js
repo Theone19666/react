@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import "./task.css";
 import Checkbox from "../checkbox";
 import Label from "../label";
@@ -17,3 +18,15 @@ export default class Task extends Component {
     );
   }
 }
+
+Task.propTypes = {
+  onDelete: PropTypes.func,
+  onComplete: PropTypes.func,
+  labelProps: PropTypes.object,
+};
+
+Task.defaultProps = {
+  onDelete: () => {},
+  onComplete: () => {},
+  labelProps: {},
+};

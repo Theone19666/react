@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import TextBox from "../text-box";
 import "./new-task-form.css";
 const inputProps = {
@@ -37,5 +38,13 @@ class NewTaskForm extends Component {
     );
   }
 }
+
+NewTaskForm.propTypes = {
+  onAddItem: PropTypes.func,
+};
+
+NewTaskForm.defaultProps = {
+  onAddItem: () => {},
+};
 
 export default NewTaskForm;

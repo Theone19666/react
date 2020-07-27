@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import Task from "../task";
 import NewTaskForm from "../new-task-form";
@@ -25,3 +26,16 @@ export default class TodoList extends Component {
     return <ul className="todo-list">{elements}</ul>;
   }
 }
+
+TodoList.propTypes = {
+  filterFunction: PropTypes.func,
+  list: PropTypes.arrayOf(PropTypes.object),
+  onComplete: PropTypes.func,
+  onDelete: PropTypes.func,
+};
+
+TodoList.defaultProps = {
+  onComplete: () => {},
+  onDelete: () => {},
+  list: [],
+};

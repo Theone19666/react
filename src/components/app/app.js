@@ -11,7 +11,7 @@ class App extends Component {
         id: "1",
         label: {
           descriptionText: "Completed task",
-          createdText: "created 17 seconds ago",
+          created: 666666666666,
         },
         show: true,
         completed: false,
@@ -20,7 +20,7 @@ class App extends Component {
         id: "2",
         label: {
           descriptionText: "Editing task",
-          createdText: "created 5 minutes ago",
+          created: 555555555555,
         },
         show: true,
         completed: false,
@@ -29,7 +29,7 @@ class App extends Component {
         id: "3",
         label: {
           descriptionText: "Active task",
-          createdText: "created 5 minutes ago",
+          created: 777777777777,
         },
         show: true,
         completed: false,
@@ -68,6 +68,7 @@ class App extends Component {
           descriptionText: text,
           createdText: "created 5 minutes ago",
           completed: false,
+          created: Date.now(),
         },
       });
       return {

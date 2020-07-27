@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import "./footer.css";
 import Filters from "../filters";
 import Button from "../button";
@@ -24,5 +25,19 @@ class Footer extends Component {
     );
   }
 }
+
+Footer.propTypes = {
+  notCompletedcounter: PropTypes.number,
+  filtersList: PropTypes.arrayOf(PropTypes.object),
+  onFilterClicked: PropTypes.func,
+  onDeleteCompleted: PropTypes.func,
+};
+
+Footer.defaultProps = {
+  notCompletedcounter: 0,
+  onFilterClicked: () => {},
+  onDeleteCompleted: () => {},
+  filtersList: [],
+};
 
 export default Footer;

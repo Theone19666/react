@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import NewTaskForm from "../new-task-form";
 import "./header.css";
 
@@ -12,5 +13,13 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  onAddItem: PropTypes.func,
+};
+
+Header.defaultProps = {
+  onAddItem: () => {},
+};
 
 export default Header;
