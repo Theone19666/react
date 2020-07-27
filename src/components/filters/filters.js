@@ -8,7 +8,7 @@ function Filters(props) {
       <li key={item.id}>
         <TasksFilter
           {...item}
-          onClick={() => props.onFilterClicked(item.filterFunction)}
+          onClick={() => props.onFilterClicked(item.filterFunction, item.id)}
         />
       </li>
     );

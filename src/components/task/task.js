@@ -4,20 +4,16 @@ import Checkbox from "../checkbox";
 import Label from "../label";
 import Button from "../button";
 
-class Task extends Component {
+export default class Task extends Component {
   render() {
-    const { onDelete, completed, onComplete, ...labelProps } = this.props;
+    const { onDelete, onComplete, ...labelProps } = this.props;
     return (
-      <li className={completed ? "completed" : ""}>
-        <div className="view">
-          <Checkbox />
-          <Label {...labelProps} onComplete={onComplete} />
-          <Button className="icon icon-edit" />
-          <Button className="icon icon-destroy" onClick={onDelete} />
-        </div>
-      </li>
+      <div className="view">
+        <Checkbox />
+        <Label {...labelProps} onComplete={onComplete} />
+        <Button className="icon icon-edit" />
+        <Button className="icon icon-destroy" onClick={onDelete} />
+      </div>
     );
   }
 }
-
-export default Task;

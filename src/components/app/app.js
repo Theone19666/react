@@ -40,23 +40,18 @@ class App extends Component {
         id: "1",
         text: "All",
         className: "selected",
-        onClick: this.onFilterAll,
       },
       {
         id: "2",
         text: "Active",
-        onClick: this.onFilterNotCompleted,
         filterFunction: (item) => {
-          console.log("!item.completed", !item.completed);
           return !item.completed;
         },
       },
       {
         id: "3",
         text: "Completed",
-        onClick: this.onFilterCompleted,
         filterFunction: (item) => {
-          console.log("item.completed", item.completed);
           return item.completed;
         },
       },
@@ -83,9 +78,7 @@ class App extends Component {
 
   deleteItem = (id) => {
     this.setState(({ todoItems }) => {
-      console.log("id", id);
       const index = todoItems.findIndex((item) => item.id === id);
-      console.log("index", index);
       if (index > -1) {
         return {
           todoItems: [
@@ -115,23 +108,29 @@ class App extends Component {
     });
   };
 
-  onFilterClicked = (filterFunction) => {
-    console.log("item", filterFunction);
+  onFilterClicked = (filterFunction, id) => {
     this.setState({
       filterFunction: filterFunction,
     });
-  };
-
-  onFilterAll = (list) => {
-    return list.slice();
-  };
-
-  onFilterCompleted = (list) => {
-    return list.filter((item) => item.completed);
-  };
-
-  onFilterNotCompleted = (list) => {
-    return list.filter((item) => !item.completed);
+    this.setState((state) => {
+      const filterstateCopy = state.filtersList.slice();
+      const prevSelectedFilter = filterstateCopy.find((item) =>
+        item?.className?.includes("selected"),
+      );
+      if (prevSelectedFilter) {
+        prevSelectedFilter.className = prevSelectedFilter.className.replace(
+          "selected",
+          "",
+        );
+      }
+      const selectedFilter = filterstateCopy.find((item) => item?.id === id);
+      if (selectedFilter) {
+        selectedFilter.className = selectedFilter.className
+          ? `${selectedFilter.className} selected`
+          : "selected";
+      }
+      return filterstateCopy;
+    });
   };
 
   onDeleteCompleted = () => {
