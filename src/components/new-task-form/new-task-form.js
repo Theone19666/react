@@ -1,39 +1,40 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import TextBox from "../text-box";
-import "./new-task-form.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import TextBox from '../text-box';
+import './new-task-form.css';
+
 const inputProps = {
-  className: "new-todo",
-  placeholder: "What needs to be done?",
+  className: 'new-todo',
+  placeholder: 'What needs to be done?',
   autoFocus: true,
 };
 class NewTaskForm extends Component {
   state = {
-    inputValue: "",
+    inputValue: '',
   };
-  onSubmit = (e) => {
-    e.preventDefault();
-    this.props.onAddItem(this.state.inputValue);
-    //this.state.inputValue = "";
+
+  onSubmit = (event) => {
+    const { onAddItem } = this.props;
+    const { inputValue } = this.state;
+    event.preventDefault();
+    onAddItem(inputValue);
+    // this.state.inputValue = "";
     this.setState({
-      inputValue: "",
+      inputValue: '',
     });
   };
 
-  onChangeInput = (e) => {
+  onChangeInput = (event) => {
     this.setState({
-      inputValue: e.target.value,
+      inputValue: event.target.value,
     });
   };
 
   render() {
+    const { inputValue } = this.state;
     return (
       <form method="POST" onSubmit={this.onSubmit}>
-        <TextBox
-          {...inputProps}
-          onChange={this.onChangeInput}
-          value={this.state.inputValue}
-        />
+        <TextBox {...inputProps} onChange={this.onChangeInput} value={inputValue} />
       </form>
     );
   }

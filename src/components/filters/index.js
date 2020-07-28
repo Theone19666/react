@@ -1,4 +1,3 @@
-import Filters from "./filters";
-import Footer from "../footer";
+import Filters from './filters';
 
 export default Filters;

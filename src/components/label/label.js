@@ -1,7 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "./label.css";
-import { formatDistanceToNow } from "date-fns";
+/* eslint-disable react/no-this-in-sfc */
+import React from 'react';
+import PropTypes from 'prop-types';
+import './label.css';
+import { formatDistanceToNow } from 'date-fns';
 
 function Label({ descriptionText, onComplete, created }) {
   const createdTime = formatDistanceToNow(new Date(created), {
@@ -10,7 +11,7 @@ function Label({ descriptionText, onComplete, created }) {
   });
   return (
     <label>
-      <span className="description" onClick={onComplete}>
+      <span className="description" onClick={onComplete} role="link" tabIndex={0} onKeyDown={this.handleKeyDown}>
         {descriptionText}
       </span>
       <span className="created">{createdTime}</span>
@@ -26,7 +27,7 @@ Label.propTypes = {
 
 Label.defaultProps = {
   onComplete: () => {},
-  descriptionText: "",
+  descriptionText: '',
   created: 0,
 };
 

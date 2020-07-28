@@ -1,34 +1,34 @@
-import React, { Component } from "react";
-import "./app.css";
-import TodoList from "../todo-list";
-import Header from "../header";
-import Footer from "../footer";
+import React, { Component } from 'react';
+import './app.css';
+import TodoList from '../todo-list';
+import Header from '../header';
+import Footer from '../footer';
 
 class App extends Component {
   state = {
     todoItems: [
       {
-        id: "1",
+        id: '1',
         label: {
-          descriptionText: "Completed task",
+          descriptionText: 'Completed task',
           created: 666666666666,
         },
         show: true,
         completed: false,
       },
       {
-        id: "2",
+        id: '2',
         label: {
-          descriptionText: "Editing task",
+          descriptionText: 'Editing task',
           created: 555555555555,
         },
         show: true,
         completed: false,
       },
       {
-        id: "3",
+        id: '3',
         label: {
-          descriptionText: "Active task",
+          descriptionText: 'Active task',
           created: 777777777777,
         },
         show: true,
@@ -37,20 +37,20 @@ class App extends Component {
     ],
     filtersList: [
       {
-        id: "1",
-        text: "All",
-        className: "selected",
+        id: '1',
+        text: 'All',
+        className: 'selected',
       },
       {
-        id: "2",
-        text: "Active",
+        id: '2',
+        text: 'Active',
         filterFunction: (item) => {
           return !item.completed;
         },
       },
       {
-        id: "3",
-        text: "Completed",
+        id: '3',
+        text: 'Completed',
         filterFunction: (item) => {
           return item.completed;
         },
@@ -59,14 +59,14 @@ class App extends Component {
     filterFunction: null,
   };
 
-  addItem = (text = "") => {
+  addItem = (text = '') => {
     this.setState((state) => {
       const todoItems = state.todoItems.slice();
       todoItems.push({
         id: String(state.todoItems.length + 1),
         label: {
           descriptionText: text,
-          createdText: "created 5 minutes ago",
+          createdText: 'created 5 minutes ago',
           completed: false,
           created: Date.now(),
         },
@@ -82,53 +82,42 @@ class App extends Component {
       const index = todoItems.findIndex((item) => item.id === id);
       if (index > -1) {
         return {
-          todoItems: [
-            ...todoItems.slice(0, index),
-            ...todoItems.slice(index + 1),
-          ],
+          todoItems: [...todoItems.slice(0, index), ...todoItems.slice(index + 1)],
         };
       }
-      return this.state;
+      return {
+        todoItems,
+      };
     });
   };
 
   onComplete = (id) => {
     this.setState((state) => {
       const elem = { ...state.todoItems.find((item) => item.id === id) };
-      const elemIndex = state.todoItems.findIndex((item) => item.id === id);
-      elem.completed = !elem.completed;
       if (elem) {
+        const elemIndex = state.todoItems.findIndex((item) => item.id === id);
+        elem.completed = !elem.completed;
         return {
-          todoItems: [
-            ...state.todoItems.slice(0, elemIndex),
-            elem,
-            ...state.todoItems.slice(elemIndex + 1),
-          ],
+          todoItems: [...state.todoItems.slice(0, elemIndex), elem, ...state.todoItems.slice(elemIndex + 1)],
         };
       }
+      return state;
     });
   };
 
   onFilterClicked = (filterFunction, id) => {
     this.setState({
-      filterFunction: filterFunction,
+      filterFunction,
     });
     this.setState((state) => {
       const filterstateCopy = state.filtersList.slice();
-      const prevSelectedFilter = filterstateCopy.find((item) =>
-        item?.className?.includes("selected"),
-      );
+      const prevSelectedFilter = filterstateCopy.find((item) => item?.className?.includes('selected'));
       if (prevSelectedFilter) {
-        prevSelectedFilter.className = prevSelectedFilter.className.replace(
-          "selected",
-          "",
-        );
+        prevSelectedFilter.className = prevSelectedFilter.className.replace('selected', '');
       }
       const selectedFilter = filterstateCopy.find((item) => item?.id === id);
       if (selectedFilter) {
-        selectedFilter.className = selectedFilter.className
-          ? `${selectedFilter.className} selected`
-          : "selected";
+        selectedFilter.className = selectedFilter.className ? `${selectedFilter.className} selected` : 'selected';
       }
       return filterstateCopy;
     });
@@ -143,23 +132,22 @@ class App extends Component {
   };
 
   render() {
+    const { todoItems, filterFunction, filtersList } = this.state;
     return (
       <section className="todoapp">
         <Header onAddItem={this.addItem} />
         <section className="main">
           <TodoList
-            list={this.state.todoItems}
+            list={todoItems}
             onDelete={this.deleteItem}
             onComplete={this.onComplete}
-            filterFunction={this.state.filterFunction}
+            filterFunction={filterFunction}
           />
           <Footer
-            notCompletedcounter={
-              this.state.todoItems.filter((item) => !item.completed).length
-            }
+            notCompletedcounter={todoItems.filter((item) => !item.completed).length}
             onDeleteCompleted={this.onDeleteCompleted}
             onFilterClicked={this.onFilterClicked}
-            filtersList={this.state.filtersList}
+            filtersList={filtersList}
           />
         </section>
       </section>

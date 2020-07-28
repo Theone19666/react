@@ -1,30 +1,20 @@
-import PropTypes from "prop-types";
-import React, { Component } from "react";
-import Task from "../task";
-import NewTaskForm from "../new-task-form";
-import "./todo-list.css";
-export default class TodoList extends Component {
-  render() {
-    const filteredTodos = this.props.filterFunction
-      ? this.props.list.filter(this.props.filterFunction)
-      : this.props.list;
+import PropTypes from 'prop-types';
+import React from 'react';
+import Task from '../task';
+import './todo-list.css';
 
-    const elements = filteredTodos.map((item) => {
-      return (
-        <li
-          className={item.completed ? "completed" : ""}
-          key={item.id.toString()}
-        >
-          <Task
-            onComplete={() => this.props.onComplete(item.id)}
-            {...item.label}
-            onDelete={() => this.props.onDelete(item.id)}
-          />
-        </li>
-      );
-    });
-    return <ul className="todo-list">{elements}</ul>;
-  }
+function TodoList(props) {
+  const { filterFunction, list, onComplete, onDelete } = props;
+  const filteredTodos = filterFunction ? list.filter(filterFunction) : list;
+
+  const elements = filteredTodos.map((item) => {
+    return (
+      <li className={item.completed ? 'completed' : ''} key={item.id.toString()}>
+        <Task onComplete={() => onComplete(item.id)} {...item.label} onDelete={() => onDelete(item.id)} />
+      </li>
+    );
+  });
+  return <ul className="todo-list">{elements}</ul>;
 }
 
 TodoList.propTypes = {
@@ -38,4 +28,7 @@ TodoList.defaultProps = {
   onComplete: () => {},
   onDelete: () => {},
   list: [],
+  filterFunction: null,
 };
+
+export default TodoList;

@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "./button.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import './button.css';
 
 function Button({ className, text, onClick }) {
   return (
-    <button className={className} onClick={onClick}>
+    <button className={className} onClick={onClick} type="button">
       {text}
     </button>
   );
@@ -17,9 +17,9 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  onCompleonClickte: () => {},
-  className: "",
-  text: "",
+  onClick: () => {},
+  className: '',
+  text: '',
 };
 
 export default Button;

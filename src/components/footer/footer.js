@@ -1,29 +1,23 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import "./footer.css";
-import Filters from "../filters";
-import Button from "../button";
-import TodoCount from "../todo-count";
+import React from 'react';
+import PropTypes from 'prop-types';
+import './footer.css';
+import Filters from '../filters';
+import Button from '../button';
+import TodoCount from '../todo-count';
+
 const buttonClearCompletedProps = {
-  className: "clear-completed",
-  text: "Clear completed",
+  className: 'clear-completed',
+  text: 'Clear completed',
 };
-class Footer extends Component {
-  render() {
-    return (
-      <footer className="footer">
-        <TodoCount counter={this.props.notCompletedcounter} />
-        <Filters
-          onFilterClicked={this.props.onFilterClicked}
-          filtersList={this.props.filtersList}
-        />
-        <Button
-          {...buttonClearCompletedProps}
-          onClick={this.props.onDeleteCompleted}
-        />
-      </footer>
-    );
-  }
+function Footer(props) {
+  const { notCompletedcounter, onFilterClicked, filtersList, onDeleteCompleted } = props;
+  return (
+    <footer className="footer">
+      <TodoCount counter={notCompletedcounter} />
+      <Filters onFilterClicked={onFilterClicked} filtersList={filtersList} />
+      <Button {...buttonClearCompletedProps} onClick={onDeleteCompleted} />
+    </footer>
+  );
 }
 
 Footer.propTypes = {
