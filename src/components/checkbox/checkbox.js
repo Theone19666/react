@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./checkbox.css";
-function Checkbox({ className }) {
-  return <input className={className} type="checkbox"></input>;
+function Checkbox(props) {
+  return <input {...props} type="checkbox"></input>;
 }
 
 Checkbox.propTypes = {

@@ -10,7 +10,7 @@ export default class Task extends Component {
     const { onDelete, onComplete, ...labelProps } = this.props;
     return (
       <div className="view">
-        <Checkbox />
+        <Checkbox onClick={onComplete} />
         <Label {...labelProps} onComplete={onComplete} />
         <Button className="icon icon-edit" />
         <Button className="icon icon-destroy" onClick={onDelete} />

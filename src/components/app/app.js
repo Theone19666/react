@@ -11,7 +11,7 @@ class App extends Component {
         id: "1",
         label: {
           descriptionText: "Completed task",
-          created: 666666666666,
+          created: 1596297358864,
         },
         show: true,
         completed: false,
@@ -20,7 +20,7 @@ class App extends Component {
         id: "2",
         label: {
           descriptionText: "Editing task",
-          created: 555555555555,
+          created: 1596478932905,
         },
         show: true,
         completed: false,
@@ -29,7 +29,7 @@ class App extends Component {
         id: "3",
         label: {
           descriptionText: "Active task",
-          created: 777777777777,
+          created: 1596296983183,
         },
         show: true,
         completed: false,
@@ -60,6 +60,9 @@ class App extends Component {
   };
 
   addItem = (text = "") => {
+    if (!text) {
+      return;
+    }
     this.setState((state) => {
       const todoItems = state.todoItems.slice();
       todoItems.push({
