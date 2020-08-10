@@ -2,37 +2,60 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import TextBox from "../text-box";
 import "./new-task-form.css";
-const inputProps = {
-  className: "new-todo",
-  placeholder: "What needs to be done?",
-  autoFocus: true,
-};
 class NewTaskForm extends Component {
   state = {
-    inputValue: "",
+    todoName: "",
+    minutes: "",
+    seconds: "",
   };
   onSubmit = (e) => {
-    e.preventDefault();
-    this.props.onAddItem(this.state.inputValue);
-    //this.state.inputValue = "";
+    console.log("e", e);
+    const { todoName, minutes, seconds } = this.setState;
+    this.props.onAddItem({ todoName, minutes, seconds });
     this.setState({
-      inputValue: "",
+      todoName: "",
+      minutes: "",
+      seconds: "",
     });
+    e.preventDefault();
   };
 
   onChangeInput = (e) => {
+    const name = e.target.dataset.name;
     this.setState({
-      inputValue: e.target.value,
+      [name]: e.target.value,
     });
   };
 
   render() {
     return (
-      <form method="POST" onSubmit={this.onSubmit}>
+      <form className="new-todo-form" onSubmit={this.onSubmit}>
         <TextBox
-          {...inputProps}
           onChange={this.onChangeInput}
-          value={this.state.inputValue}
+          value={this.state.todoName}
+          placeholder="Task"
+          autoFocus={true}
+          className="new-todo"
+          data-name="todoName"
+          name="todoName"
+        />
+        <TextBox
+          className="new-todo-form__timer"
+          placeholder="Min"
+          autoFocus=""
+          onChange={this.onChangeInput}
+          value={this.state.minutes}
+          data-name="minutes"
+          name="minutes"
+        />
+        <TextBox
+          className="new-todo-form__timer"
+          placeholder="Sec"
+          autoFocus=""
+          onChange={this.onChangeInput}
+          value={this.state.seconds}
+          data-name="seconds"
+          name="seconds"
         />
       </form>
     );

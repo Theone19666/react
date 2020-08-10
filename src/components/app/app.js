@@ -12,6 +12,7 @@ class App extends Component {
         label: {
           descriptionText: "Completed task",
           created: 1596297358864,
+          timer: 120,
         },
         show: true,
         completed: false,
@@ -20,7 +21,8 @@ class App extends Component {
         id: "2",
         label: {
           descriptionText: "Editing task",
-          created: 1596478932905,
+          created: 1596966053387,
+          timer: 59,
         },
         show: true,
         completed: false,
@@ -30,6 +32,7 @@ class App extends Component {
         label: {
           descriptionText: "Active task",
           created: 1596296983183,
+          timer: 100,
         },
         show: true,
         completed: false,
@@ -59,19 +62,23 @@ class App extends Component {
     filterFunction: null,
   };
 
-  addItem = (text = "") => {
-    if (!text) {
+  getTimer = ({ minutes = 0, seconds = 0 } = {}) => {
+    return minutes * 60 + seconds;
+  };
+
+  addItem = ({ todoName = "", minutes = 0, seconds = 0 }) => {
+    if (!todoName) {
       return;
     }
     this.setState((state) => {
       const todoItems = state.todoItems.slice();
       todoItems.push({
         id: String(state.todoItems.length + 1),
+        completed: false,
         label: {
-          descriptionText: text,
-          createdText: "created 5 minutes ago",
-          completed: false,
+          descriptionText: todoName,
           created: Date.now(),
+          timer: this.getTimer({ minutes, seconds }),
         },
       });
       return {
