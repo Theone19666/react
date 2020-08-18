@@ -4,25 +4,20 @@ import "./footer.css";
 import Filters from "../filters";
 import Button from "../button";
 import TodoCount from "../todo-count";
+
 const buttonClearCompletedProps = {
   className: "clear-completed",
   text: "Clear completed",
 };
 function Footer(props) {
-  const { notCompletedcounter, onFilterClicked, filtersList, onDeleteCompleted } = props;
-    return (
-      <footer className="footer">
-        <TodoCount counter={notCompletedcounter} />
-        <Filters
-          onFilterClicked={onFilterClicked}
-          filtersList={filtersList}
-        />
-        <Button
-          {...buttonClearCompletedProps}
-          onClick={onDeleteCompleted}
-        />
-      </footer>
-    );
+  const { onDeleteCompleted } = props;
+  return (
+    <footer className="footer">
+      <TodoCount />
+      <Filters />
+      <Button {...buttonClearCompletedProps} onClick={onDeleteCompleted} />
+    </footer>
+  );
 }
 
 Footer.propTypes = {

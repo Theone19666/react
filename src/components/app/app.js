@@ -3,6 +3,12 @@ import "./app.css";
 import TodoList from "../todo-list";
 import Header from "../header";
 import Footer from "../footer";
+import {
+  FiltersListContext,
+  FiltersContext,
+  TodoCountContext,
+  NewTaskFormOnAddContext,
+} from "../todo-context";
 
 function App() {
   const [todoItems, setTodoItems] = useState([
@@ -88,13 +94,10 @@ function App() {
     setTodoItems((prev) => {
       const index = prev.findIndex((item) => item.id === id);
       if (index > -1) {
-        return [
-            ...prev.slice(0, index),
-            ...prev.slice(index + 1),
-        ];
+        return [...prev.slice(0, index), ...prev.slice(index + 1)];
       }
       return prev;
-    })
+    });
   };
 
   const onComplete = (id) => {
@@ -104,10 +107,10 @@ function App() {
       elem.completed = !elem.completed;
       if (elem) {
         return [
-            ...todoItems.slice(0, elemIndex),
-            elem,
-            ...todoItems.slice(elemIndex + 1),
-          ];
+          ...todoItems.slice(0, elemIndex),
+          elem,
+          ...todoItems.slice(elemIndex + 1),
+        ];
       }
       return todoItems;
     });
@@ -142,9 +145,14 @@ function App() {
     });
   };
 
+  //const FiltersContext = React.createContext(() => {});
+
   return (
     <section className="todoapp">
-      <Header onAddItem={addItem} />
+      <NewTaskFormOnAddContext.Provider value={addItem}>
+        <Header />
+      </NewTaskFormOnAddContext.Provider>
+
       <section className="main">
         <TodoList
           list={todoItems}
@@ -152,14 +160,16 @@ function App() {
           onComplete={onComplete}
           filterFunction={filterFunction}
         />
-        <Footer
-          notCompletedcounter={
-            todoItems.filter((item) => !item.completed).length
-          }
-          onDeleteCompleted={onDeleteCompleted}
-          onFilterClicked={onFilterClicked}
-          filtersList={filtersList}
-        />
+
+        <FiltersContext.Provider value={onFilterClicked}>
+          <FiltersListContext.Provider value={filtersList}>
+            <TodoCountContext.Provider
+              value={todoItems.filter((item) => !item.completed).length}
+            >
+              <Footer onDeleteCompleted={onDeleteCompleted} />
+            </TodoCountContext.Provider>
+          </FiltersListContext.Provider>
+        </FiltersContext.Provider>
       </section>
     </section>
   );

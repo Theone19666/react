@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import "./todo-count.css";
+import { TodoCountContext } from "../todo-context";
 
-function TodoCount({ counter }) {
+function TodoCount() {
+  const counter = useContext(TodoCountContext);
   return <span className="todo-count">{counter} items left</span>;
 }
 

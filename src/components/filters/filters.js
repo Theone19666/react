@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import "./filters.css";
 import TasksFilter from "../tasks-filter";
+import { FiltersContext, FiltersListContext } from "../todo-context";
 
 function Filters(props) {
-  const elements = props.filtersList.map((item) => {
+  const onFilterClicked = useContext(FiltersContext);
+  const filtersList = useContext(FiltersListContext);
+  const elements = filtersList.map((item) => {
     return (
       <li key={item.id}>
         <TasksFilter
           {...item}
-          onClick={() => props.onFilterClicked(item.filterFunction, item.id)}
+          onClick={() => onFilterClicked(item.filterFunction, item.id)}
         />
       </li>
     );

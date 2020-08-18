@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import TextBox from "../text-box";
 import "./new-task-form.css";
+import { NewTaskFormOnAddContext } from "../todo-context";
+
 function NewTaskForm(props) {
-  const { onAddItem} = props;
-  const [todoName, setTodoName] = useState('');
-  const [minutes, setMinutes] = useState('');
-  const [seconds, setSeconds] = useState('');
+  const onAddItem = useContext(NewTaskFormOnAddContext);
+  const [todoName, setTodoName] = useState("");
+  const [minutes, setMinutes] = useState("");
+  const [seconds, setSeconds] = useState("");
 
   const onSubmit = (e) => {
     onAddItem({ todoName, minutes, seconds });
-    setTodoName('');
-    setMinutes('');
-    setSeconds('');
+    setTodoName("");
+    setMinutes("");
+    setSeconds("");
     e.preventDefault();
   };
 
@@ -20,11 +22,11 @@ function NewTaskForm(props) {
     const name = e.target.dataset.name;
     const value = e.target.value;
 
-    if (name === 'todoName') {
-      setTodoName(value)
-    } else if (name === 'minutes') {
+    if (name === "todoName") {
+      setTodoName(value);
+    } else if (name === "minutes") {
       setMinutes(value);
-    } else  {
+    } else {
       setSeconds(value);
     }
   };
