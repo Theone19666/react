@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./label.css";
 import { formatDistanceToNow } from "date-fns";
@@ -23,64 +23,59 @@ function getFormatedTimer(timer = 0) {
   }`;
 }
 
-export default class Label extends Component {
-  createdTimerId = 0;
-  // timerTimerId = 0;
+function Label(props) {
+  const { created, timer, onComplete, descriptionText } = props;
 
-  state = {
-    createdTime: new Date(this.props.created),
-    timer: this.props.timer || 0,
-    timerTimerId: 0,
+  let createdTimerId = 0;
+
+  let [createdTime, setCreatedTime] = useState(new Date(created));
+  let [timerTimer, setTimer] = useState(timer || 0);
+  let [timerTimerId, setTimerTimerId] = useState(0);
+
+  const updateCreatedTime = () => {
+    setCreatedTime(created);
+  }
+
+  const setUpdateCreatedTimeInterval = () => {
+    createdTimerId = setInterval(() => updateCreatedTime(), 60000);
+  }
+
+  const updateTimer = () => {
+    setTimer((prev) => prev+1);
+    return timerTimer;
+  }
+
+  const stopTimer = () => {
+    console.log('timerTimerId stop', timerTimerId)
+    clearInterval(timerTimerId);
+    setTimerTimerId(0);
   };
 
-  componentDidMount() {
-    this.setUpdateInterval();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.createdTimerId);
-    this.createdTimerId = 0;
-    if (this.state.timerTimerId) {
-      clearInterval(this.state.timerTimerId);
-      this.setState({ timerTimerId: 0 });
-    }
-  }
-
-  updateCreatedTime() {
-    this.setState({
-      createdTime: new Date(this.props.created),
-    });
-  }
-
-  setUpdateInterval() {
-    this.createdTimerId = setInterval(() => this.updateCreatedTime(), 60000);
-  }
-
-  updateTimer() {
-    this.setState((state) => {
-      return { timer: state.timer + 1 };
-    });
-  }
-
-  stopTimer = () => {
-    clearInterval(this.state.timerTimerId);
-    this.setState({ timerTimerId: 0 });
-  };
-
-  startTimer = () => {
-    if (!this.timerTimerId) {
-      this.setState({
-        timerTimerId: setInterval(() => this.updateTimer(), 1000),
-      });
+  const startTimer = () => {
+    if (!timerTimerId) {
+      setTimerTimerId((prev) => {
+        return setInterval(() => updateTimer(), 1000)
+      })
     }
   };
 
-  render() {
-    const { onComplete, descriptionText } = this.props;
-    const createdTime = formatDistanceToNow(this.state.createdTime, {
-      addSuffix: true,
-      includeSeconds: true,
-    });
+  useEffect(() => {
+    setUpdateCreatedTimeInterval();
+    return () => {
+      clearInterval(createdTimerId);
+      createdTimerId = 0;
+      if (timerTimerId) {
+        clearInterval(timerTimerId);
+        setTimerTimerId(0);
+      }
+    }
+  }, []);
+
+  const createdTimeConfig = {
+    addSuffix: true,
+    includeSeconds: true,
+  };
+  const formatedCreatedTime = formatDistanceToNow(createdTime, createdTimeConfig);
     return (
       <label>
         <span className="title" onClick={onComplete}>
@@ -89,20 +84,19 @@ export default class Label extends Component {
         <span className="description">
           <Button
             className="icon icon-play"
-            onClick={this.startTimer}
-            disabled={Boolean(this.state.timerTimerId)}
+            onClick={startTimer}
+            disabled={Boolean(timerTimerId)}
           />
           <Button
             className="icon icon-pause"
-            onClick={this.stopTimer}
-            disabled={!this.state.timerTimerId}
+            onClick={stopTimer}
+            disabled={!timerTimerId}
           />
-          {getFormatedTimer(this.state.timer)}
+          {getFormatedTimer(timerTimer)}
         </span>
-        <span className="created">{createdTime}</span>
+        <span className="created">{formatedCreatedTime}</span>
       </label>
     );
-  }
 }
 
 Label.propTypes = {
@@ -118,3 +112,5 @@ Label.defaultProps = {
   created: 0,
   timer: 0,
 };
+
+export default Label;
