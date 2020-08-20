@@ -21,17 +21,11 @@ function Footer(props) {
 }
 
 Footer.propTypes = {
-  notCompletedcounter: PropTypes.number,
-  filtersList: PropTypes.arrayOf(PropTypes.object),
-  onFilterClicked: PropTypes.func,
   onDeleteCompleted: PropTypes.func,
 };
 
 Footer.defaultProps = {
-  notCompletedcounter: 0,
-  onFilterClicked: () => {},
   onDeleteCompleted: () => {},
-  filtersList: [],
 };
 
 export default Footer;

@@ -4,7 +4,7 @@ import "./filters.css";
 import TasksFilter from "../tasks-filter";
 import { FiltersContext, FiltersListContext } from "../todo-context";
 
-function Filters(props) {
+function Filters() {
   const onFilterClicked = useContext(FiltersContext);
   const filtersList = useContext(FiltersListContext);
   const elements = filtersList.map((item) => {

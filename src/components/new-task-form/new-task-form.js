@@ -1,21 +1,26 @@
 import React, { useState, useContext } from "react";
-import PropTypes from "prop-types";
 import TextBox from "../text-box";
 import "./new-task-form.css";
 import { NewTaskFormOnAddContext } from "../todo-context";
 
-function NewTaskForm(props) {
+function NewTaskForm() {
   const onAddItem = useContext(NewTaskFormOnAddContext);
   const [todoName, setTodoName] = useState("");
   const [minutes, setMinutes] = useState("");
   const [seconds, setSeconds] = useState("");
 
   const onSubmit = (e) => {
+    e.preventDefault();
+    var key = e.keyCode || e.which;
+    if (key !== 13) {
+      // Клавиша Enter
+      return;
+    }
+
     onAddItem({ todoName, minutes, seconds });
     setTodoName("");
     setMinutes("");
     setSeconds("");
-    e.preventDefault();
   };
 
   const onChangeInput = (e) => {
@@ -32,7 +37,7 @@ function NewTaskForm(props) {
   };
 
   return (
-    <form className="new-todo-form" onSubmit={onSubmit}>
+    <form className="new-todo-form" onKeyUp={onSubmit}>
       <TextBox
         onChange={onChangeInput}
         value={todoName}
@@ -63,13 +68,5 @@ function NewTaskForm(props) {
     </form>
   );
 }
-
-NewTaskForm.propTypes = {
-  onAddItem: PropTypes.func,
-};
-
-NewTaskForm.defaultProps = {
-  onAddItem: () => {},
-};
 
 export default NewTaskForm;

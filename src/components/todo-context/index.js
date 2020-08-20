@@ -3,6 +3,8 @@ import {
   FiltersListContext,
   TodoCountContext,
   NewTaskFormOnAddContext,
+  EditTaskFormOnAddContext,
+  LabelContext,
 } from "./todo-context";
 
 export {
@@ -10,4 +12,6 @@ export {
   FiltersListContext,
   TodoCountContext,
   NewTaskFormOnAddContext,
+  EditTaskFormOnAddContext,
+  LabelContext,
 };

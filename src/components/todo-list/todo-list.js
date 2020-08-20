@@ -3,24 +3,20 @@ import React from "react";
 import Task from "../task";
 import "./todo-list.css";
 function TodoList(props) {
-  const {filterFunction, list, onComplete, onDelete } = props;
+  const { filterFunction, list, onComplete, onDelete } = props;
 
-  const filteredTodos = filterFunction
-    ? list?.filter(props?.filterFunction)
-    : list;
+  const filteredTodos = filterFunction ? list?.filter(filterFunction) : list;
 
   const elements = filteredTodos.map((item) => {
     return (
-      <li
-        className={item.completed ? "completed" : ""}
+      <Task
+        id={item.id.toString()}
         key={item.id.toString()}
-      >
-        <Task
-          onComplete={() => onComplete(item.id)}
-          {...item.label}
-          onDelete={() => onDelete(item.id)}
-        />
-      </li>
+        onComplete={() => onComplete(item.id)}
+        {...item.label}
+        onDelete={() => onDelete(item.id)}
+        completed={item.completed}
+      />
     );
   });
   return <ul className="todo-list">{elements}</ul>;
@@ -34,6 +30,7 @@ TodoList.propTypes = {
 };
 
 TodoList.defaultProps = {
+  //filterFunction: () => {},
   onComplete: () => {},
   onDelete: () => {},
   list: [],
