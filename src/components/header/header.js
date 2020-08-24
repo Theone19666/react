@@ -1,12 +1,12 @@
 import React from "react";
-import TextBox from "../text-box";
+import NewTaskForm from "../new-task-form";
 import "./header.css";
 
-function Header(props = {}) {
+function Header() {
   return (
     <header className="header">
       <h1>todos</h1>
-      <TextBox {...props.inputObj} />
+      <NewTaskForm />
     </header>
   );
 }
