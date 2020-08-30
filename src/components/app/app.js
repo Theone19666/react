@@ -91,7 +91,8 @@ function App() {
 
   useEffect(() => {
     setInitialTodoItems();
-  }, [setInitialTodoItems]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getTimerValue = ({ minutes = 0, seconds = 0 } = {}) => {
     return !isNaN(minutes) && !isNaN(seconds)
